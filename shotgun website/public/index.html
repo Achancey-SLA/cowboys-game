@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <style>
+body {
+  background-image: url('images/Cowboy.png');
+   background-size: cover;
+}
+</style>
+<h1>bullets: <span id="bulletsCounter">0</span>/6</h1>
+<h1>score: <span id="scoreCounter">you:0 them:0</span></h1>
+<h1> <span id="infoText">press start</span></h1>
+    <br>
+    <div class="enemyNameArea">
+    <h1>Enemy Name: </h1>
+    <h1><span id="enemyName">Enemy</span></h1>
+    </div>
+    <div class="fullscreen-container">
+        <h1>This text is perfectly centered on the screen!</h1>
+    </div>
+    <div class="buttonOptions">
+    <button class="buttonOption" id="gunButton">
+    <img src="images/Gun.png" width="100" class="buttonImage" id="gunImage">
+    </button>
+    <button class="buttonOption" id="loadButton">
+    <img src="images/Load.png" width="100" class="buttonImage">
+    </button>
+    <button class="buttonOption" id="shieldButton">
+    <img src="images/Shield.png" width="100" class="buttonImage">
+    </button>
+    </div>
+    <div class="startWindow">
+    <button id="startButton">
+        <h1>Start Game</h1>
+    </button>
+    <input type="text" placeholder="username" id="usernameInput">
+    </div>
+</body>
+</html>
