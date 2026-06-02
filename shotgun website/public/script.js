@@ -4,10 +4,12 @@ const loadButton = document.getElementById("loadButton");
 const shieldButton = document.getElementById("shieldButton");
 const bulletsCounter = document.getElementById("bulletsCounter");
 const scoreCounter = document.getElementById("scoreCounter");
+const infoText = document.getElementById("infoText");
 const socket = io();
 var bullets = 0;
 var score = 0;
 var enemyScore = 2;
+var username = "";
 
 startButton.addEventListener("click", startGame);
 gunButton.addEventListener("click", gunAction);
@@ -28,13 +30,14 @@ function startGame() {
     loadButton.style.opacity = 1;
     shieldButton.disabled = false;
     shieldButton.style.opacity = 1;
-        const message = document.getElementById("usernameInput").value.trim();
-    if (message) {
+    username = document.getElementById("usernameInput").value.trim();
+    const message = username;
         // Emit the message to the server
-        socket.emit('chat message', message);
+    socket.emit('chat message', message);
             // Clear the input
-             document.getElementById("usernameInput").value = '';
-         }
+    document.getElementById("usernameInput").value = '';
+
+    infoText.textContent = "waiting for opponent...";
 
 }
 function gunAction() {
