@@ -90,7 +90,10 @@ function startTurn() {
 }
 
 function handleActions() {
-    
+    if(action == "shoot"){
+    if(enemyAction == "shoot"){
+        infoText.textContent = "you both shoot, the bullets collide in mid air";
+    }
 }
 
 socket.on('shoot', (msg) => {
