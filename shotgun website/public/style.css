@@ -44,7 +44,7 @@ h1 {
 }
 .fullscreen-container {
   position: fixed;
-  top: 230px;
+  top: 50%;
   left: 0;
   display: flex; /* 100% of the viewport height */
   width: 100vw;  /* 100% of the viewport width */
