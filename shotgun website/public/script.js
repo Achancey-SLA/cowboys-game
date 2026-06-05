@@ -3,7 +3,7 @@ const gunButton = document.getElementById("gunButton");
 const loadButton = document.getElementById("loadButton");
 const shieldButton = document.getElementById("shieldButton");
 const bulletsCounter = document.getElementById("bulletsCounter");
-const scoreCounter = document.getElementById("scoreCounter");
+const enemyScoreText= document.getElementById("enemyScoreCounter");
 const infoText = document.getElementById("infoText");
 const socket = io();
 const enemyNameText = document.getElementById("enemyName");
@@ -19,7 +19,8 @@ var enemyScore = 3;
 var username = "";
 var action = "";
 var enemyAction = "";
-scoreText.textContent = "Lives: "+score+" - "+enemyScore;
+scoreText.textContent = "Lives: "+score;
+enemyScoreText.textContent = "Enemy: "+ enemyScore;
 
 startButton.addEventListener("click", startGameButton);
 gunButton.addEventListener("click", gunAction);
@@ -57,6 +58,8 @@ function startGameButton() {
 
 }
 function startGame() {
+    scoreText.textContent = "Lives: "+score;
+    enemyScoreText.textContent = "Enemy: "+ enemyScore;
     console.log("Game Started");
     startButton.style.display = "none";
     infoText.textContent = "matched against "+enemyName+", make your move";
@@ -75,8 +78,20 @@ function endTurn() {
     loadButton.style.opacity = 0.5;
     shieldButton.disabled = true;
     shieldButton.style.opacity = 0.5;
+    console.log(recievedEnemyChoice)
+    if(recievedEnemyChoice){
+        console.log("actions: "+action + " "+ enemyAction)
+        handleActions();
+    }
 }
 function startTurn() {
+    scoreText.textContent = "Lives: "+score;
+    enemyScoreText.textContent = "Enemy: "+ enemyScore;
+    if(score>0&&enemyScore>0){
+    action = ""
+    enemyAction = ""
+    madeChoice = false;
+    recievedEnemyChoice = false;
     if(bullets > 0){
         gunButton.disabled = false;
         gunButton.style.opacity = 1;
@@ -88,14 +103,60 @@ function startTurn() {
     shieldButton.disabled = false;
     shieldButton.style.opacity = 1;
 }
+    else if(enemyScore==0){
+        infoText.textContent = "The enemy is out of lives, you win!"
+    }
+    else{
+        infoText.textContent = "you are out of lives, you lose"
+    }
+}
 
 function handleActions() {
     if(action == "shoot"){
-        
-    }
     if(enemyAction == "shoot"){
         infoText.textContent = "you both shoot, the bullets collide in mid air";
+        startTurn();
     }
+    if(enemyAction == "load"){
+        infoText.textContent = "your opponent loaded, and you shot them!";
+        enemyScore--;
+        startTurn();
+    }
+    if(enemyAction == "shield"){
+        infoText.textContent = "your opponent blocked your bullet";
+        startTurn();
+    }
+    }
+    if(action == "load"){
+        if(enemyAction == "shoot"){
+            infoText.textContent = "your opponent shot you, you lose a life";
+            score --;
+            startTurn();
+    }
+        if(enemyAction == "load"){
+            infoText.textContent = "both players loaded their guns";
+            startTurn();
+    }
+        if(enemyAction == "shield"){
+         infoText.textContent = "you loaded your gun, the opponent shielded";
+            startTurn();
+    }
+    }
+    if(action == "shield"){
+        if(enemyAction == "shoot"){
+        infoText.textContent = "your opponent shot, but you blocked it!";
+        startTurn();
+    }
+    if(enemyAction == "load"){
+        infoText.textContent = "you shielded, and your opponent loaded their gun";
+        startTurn();
+    }
+    if(enemyAction == "shield"){
+        infoText.textContent = "both players shielded pointlessly";
+        startTurn();
+    }
+    }
+
 }
 
 socket.on('shoot', (msg) => {
